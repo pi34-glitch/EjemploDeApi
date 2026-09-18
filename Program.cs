@@ -1,6 +1,10 @@
 using EjemploDeApi.Data;
 using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+// Agregar servicios MVC/API
+builder.Services.AddControllers();
+
 builder.Services.AddDbContext<RestaurantesDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -28,4 +32,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Mapear los controladores API
+app.MapControllers();
 app.Run();
