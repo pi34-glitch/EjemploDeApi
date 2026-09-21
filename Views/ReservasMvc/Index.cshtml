@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Lista de Reservas";
+}
+
+<h1>Lista de Reservas</h1>
+
+<a href="/Reservas/Create" class="btn btn-primary mb-3">+ Nueva Reserva</a>
+
+<table class="table table-bordered" id="tablaReservas">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Restaurante</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Personas</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    async function cargarReservas() {
+        const res = await fetch('/api/Reservas');
+        const data = await res.json();
+        const tbody = document.querySelector('#tablaReservas tbody');
+        tbody.innerHTML = '';
+        data.forEach(r => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${r.id}</td>
+                    <td>${r.idRestaurante}</td>
+                    <td>${r.nombreCliente}</td>
+                    <td>${r.fecha.substring(0,10)}</td>
+                    <td>${r.hora}</td>
+                    <td>${r.cantidadPersonas}</td>
+                    <td>
+                        <a href="/Reservas/Details/${r.id}" class="btn btn-secondary btn-sm">Ver</a>
+                        <a href="/Reservas/Edit/${r.id}" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="/Reservas/Delete/${r.id}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>`;
+        });
+    }
+    cargarReservas();
+</script>

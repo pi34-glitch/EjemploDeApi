@@ -15,15 +15,21 @@ namespace EjemploDeApi.Controllers
         {
             _context = context;
         }
-
         [HttpGet]
+        public async Task<ActionResult<IEnumerable<Restaurante>>> GetRestaurantes()
+        {
+            return await _context.Restaurantes.ToListAsync();
+        }
+
+        [HttpGet("{id}")]
         public async Task<ActionResult<Restaurante>> GetRestaurante(int id)
         {
-            var restaurante = await _context.Restaurantes.FindAsync(id); 
-            if (restaurante == null) 
-            { 
-                return NotFound(); 
-            } 
+            var restaurante = await _context.Restaurantes.FindAsync(id);
+
+            if (restaurante == null)
+            {
+                return NotFound();
+            }
 
             return restaurante;
         }
@@ -65,7 +71,7 @@ namespace EjemploDeApi.Controllers
                     return NotFound(); 
                 } 
                 throw;
-            } 
+            }
             
             return NoContent(); 
         }
@@ -81,12 +87,12 @@ namespace EjemploDeApi.Controllers
             await _context.SaveChangesAsync(); 
 
             return NoContent(); 
-        } 
+        }
         
         private bool RestauranteExists(int id) 
         { 
             return _context.Restaurantes.Any(e => e.Id == id); 
         }
     }
-        
+    
 }

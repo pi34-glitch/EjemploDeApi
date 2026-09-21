@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PracticaApiRest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91acd60077ff1fb17d8b6440345928cfae7d26b3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5327fcfb2ecf5d951bce88f3413ec76eaa5e6a1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PracticaApiRest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PracticaApiRest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

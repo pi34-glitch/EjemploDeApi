@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 // Agregar servicios MVC/API
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
+
+
 
 builder.Services.AddDbContext<RestaurantesDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -31,7 +33,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+    // Mapear los controladores API
 
-// Mapear los controladores API
 app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.Run();

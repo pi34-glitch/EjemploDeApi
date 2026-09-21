@@ -1,0 +1,444 @@
+@{
+    ViewData["Title"] = "API de Restaurantes";
+}
+
+<div class="container mt-4">
+
+    <h1>API REST - Restaurantes</h1>
+
+    <hr />
+
+    <!-- ========================= -->
+    <!-- GET TODOS -->
+    <!-- ========================= -->
+
+    <h2>GET - Obtener restaurantes</h2>
+
+    <button class="btn btn-primary" onclick="obtenerRestaurantes()">
+        Obtener restaurantes
+    </button>
+
+    <div id="resultadoGet" class="mt-3"></div>
+
+
+    <hr />
+
+    <!-- ========================= -->
+    <!-- GET POR ID -->
+    <!-- ========================= -->
+
+    <h2>GET - Buscar restaurante por ID</h2>
+
+    <div class="mb-3">
+        <label>ID del restaurante:</label>
+
+        <input type="number"
+               id="getId"
+               class="form-control"
+               placeholder="Ej: 1" />
+    </div>
+
+    <button class="btn btn-primary" onclick="obtenerRestaurante()">
+        Buscar
+    </button>
+
+    <div id="resultadoGetId" class="mt-3"></div>
+
+
+    <hr />
+
+    <!-- ========================= -->
+    <!-- POST -->
+    <!-- ========================= -->
+
+    <h2>POST - Crear restaurante</h2>
+
+    <div class="mb-3">
+        <label>Nombre:</label>
+        <input type="text" id="postNombre" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Dirección:</label>
+        <input type="text" id="postDireccion" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Teléfono:</label>
+        <input type="text" id="postTelefono" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Especialidad:</label>
+        <input type="text" id="postEspecialidad" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Capacidad:</label>
+        <input type="number" id="postCapacidad" class="form-control">
+    </div>
+
+    <button class="btn btn-success" onclick="crearRestaurante()">
+        Crear restaurante
+    </button>
+
+    <div id="resultadoPost" class="mt-3"></div>
+
+
+    <hr />
+
+    <!-- ========================= -->
+    <!-- PUT -->
+    <!-- ========================= -->
+
+    <h2>PUT - Actualizar restaurante</h2>
+
+    <div class="mb-3">
+        <label>ID:</label>
+        <input type="number" id="putId" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Nombre:</label>
+        <input type="text" id="putNombre" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Dirección:</label>
+        <input type="text" id="putDireccion" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Teléfono:</label>
+        <input type="text" id="putTelefono" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Especialidad:</label>
+        <input type="text" id="putEspecialidad" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Capacidad:</label>
+        <input type="number" id="putCapacidad" class="form-control">
+    </div>
+
+    <button class="btn btn-warning" onclick="actualizarRestaurante()">
+        Actualizar restaurante
+    </button>
+
+    <div id="resultadoPut" class="mt-3"></div>
+
+
+    <hr />
+
+    <!-- ========================= -->
+    <!-- DELETE -->
+    <!-- ========================= -->
+
+    <h2>DELETE - Eliminar restaurante</h2>
+
+    <div class="mb-3">
+        <label>ID del restaurante:</label>
+
+        <input type="number"
+               id="deleteId"
+               class="form-control"
+               placeholder="Ej: 1" />
+    </div>
+
+    <button class="btn btn-danger" onclick="eliminarRestaurante()">
+        Eliminar restaurante
+    </button>
+
+    <div id="resultadoDelete" class="mt-3"></div>
+
+</div>
+
+
+<script>
+
+    // =========================================
+    // GET - Obtener todos
+    // =========================================
+
+    async function obtenerRestaurantes() {
+
+        const respuesta = await fetch('/api/Restaurantes');
+
+        const datos = await respuesta.json();
+
+        let html = '<h4>Restaurantes</h4>';
+
+        html += '<table class="table table-bordered">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>ID</th>';
+        html += '<th>Nombre</th>';
+        html += '<th>Dirección</th>';
+        html += '<th>Teléfono</th>';
+        html += '<th>Especialidad</th>';
+        html += '<th>Capacidad</th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+
+        /*
+         * Como tu GET actual devuelve un solo objeto,
+         * esta parte funciona cuando el API devuelve una lista.
+         */
+
+        if (Array.isArray(datos)) {
+
+            datos.forEach(restaurante => {
+
+                html += `
+                    <tr>
+                        <td>${restaurante.id}</td>
+                        <td>${restaurante.nombre}</td>
+                        <td>${restaurante.direccion}</td>
+                        <td>${restaurante.telefono}</td>
+                        <td>${restaurante.especialidad}</td>
+                        <td>${restaurante.capacidad}</td>
+                    </tr>
+                `;
+
+            });
+
+        }
+        else {
+
+            html += `
+                <tr>
+                    <td>${datos.id}</td>
+                    <td>${datos.nombre}</td>
+                    <td>${datos.direccion}</td>
+                    <td>${datos.telefono}</td>
+                    <td>${datos.especialidad}</td>
+                    <td>${datos.capacidad}</td>
+                </tr>
+            `;
+        }
+
+        html += '</tbody>';
+        html += '</table>';
+
+        document.getElementById('resultadoGet').innerHTML = html;
+    }
+
+
+    // =========================================
+    // GET POR ID
+    // =========================================
+
+    async function obtenerRestaurante() {
+
+        const id = document.getElementById('getId').value;
+
+        const respuesta =
+            await fetch(`/api/Restaurantes/${id}`);
+
+        if (!respuesta.ok) {
+
+            document.getElementById('resultadoGetId').innerHTML =
+                '<div class="alert alert-danger">Restaurante no encontrado</div>';
+
+            return;
+        }
+
+        const restaurante = await respuesta.json();
+
+        document.getElementById('resultadoGetId').innerHTML = `
+            <div class="card p-3">
+
+                <h4>${restaurante.nombre}</h4>
+
+                <p><strong>ID:</strong> ${restaurante.id}</p>
+
+                <p><strong>Dirección:</strong>
+                    ${restaurante.direccion}
+                </p>
+
+                <p><strong>Teléfono:</strong>
+                    ${restaurante.telefono}
+                </p>
+
+                <p><strong>Especialidad:</strong>
+                    ${restaurante.especialidad}
+                </p>
+
+                <p><strong>Capacidad:</strong>
+                    ${restaurante.capacidad}
+                </p>
+
+            </div>
+        `;
+    }
+
+
+    // =========================================
+    // POST
+    // =========================================
+
+    async function crearRestaurante() {
+
+        const restaurante = {
+
+            nombre: document.getElementById('postNombre').value,
+
+            direccion: document.getElementById('postDireccion').value,
+
+            telefono: document.getElementById('postTelefono').value,
+
+            especialidad:
+                document.getElementById('postEspecialidad').value,
+
+            capacidad:
+                parseInt(document.getElementById('postCapacidad').value)
+
+        };
+
+        const respuesta = await fetch('/api/Restaurantes', {
+
+            method: 'POST',
+
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(restaurante)
+        });
+
+
+        const datos = await respuesta.json();
+
+
+        if (respuesta.ok) {
+
+            document.getElementById('resultadoPost').innerHTML = `
+                <div class="alert alert-success">
+
+                    Restaurante creado correctamente.
+
+                    <pre>${JSON.stringify(datos, null, 2)}</pre>
+
+                </div>
+            `;
+
+        }
+        else {
+
+            document.getElementById('resultadoPost').innerHTML = `
+                <div class="alert alert-danger">
+                    Error al crear restaurante.
+                </div>
+            `;
+        }
+    }
+
+
+    // =========================================
+    // PUT
+    // =========================================
+
+    async function actualizarRestaurante() {
+
+        const id =
+            document.getElementById('putId').value;
+
+        const restaurante = {
+
+            id: parseInt(id),
+
+            nombre:
+                document.getElementById('putNombre').value,
+
+            direccion:
+                document.getElementById('putDireccion').value,
+
+            telefono:
+                document.getElementById('putTelefono').value,
+
+            especialidad:
+                document.getElementById('putEspecialidad').value,
+
+            capacidad:
+                parseInt(
+                    document.getElementById('putCapacidad').value
+                )
+        };
+
+
+        const respuesta = await fetch(
+            `/api/Restaurantes/${id}`,
+            {
+
+                method: 'PUT',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(restaurante)
+            }
+        );
+
+
+        if (respuesta.ok) {
+
+            document.getElementById('resultadoPut').innerHTML = `
+                <div class="alert alert-success">
+                    Restaurante actualizado correctamente.
+                </div>
+            `;
+
+        }
+        else {
+
+            document.getElementById('resultadoPut').innerHTML = `
+                <div class="alert alert-danger">
+                    Error al actualizar restaurante.
+                </div>
+            `;
+        }
+    }
+
+
+    // =========================================
+    // DELETE
+    // =========================================
+
+    async function eliminarRestaurante() {
+
+        const id =
+            document.getElementById('deleteId').value;
+
+
+        const respuesta = await fetch(
+            `/api/Restaurantes/${id}`,
+            {
+                method: 'DELETE'
+            }
+        );
+
+
+        if (respuesta.ok) {
+
+            document.getElementById('resultadoDelete').innerHTML = `
+                <div class="alert alert-success">
+                    Restaurante eliminado correctamente.
+                </div>
+            `;
+
+        }
+        else {
+
+            document.getElementById('resultadoDelete').innerHTML = `
+                <div class="alert alert-danger">
+                    No se pudo eliminar el restaurante.
+                </div>
+            `;
+        }
+    }
+
+</script>
