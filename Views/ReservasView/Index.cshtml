@@ -1,0 +1,576 @@
+@{
+    ViewData["Title"] = "Reservas";
+}
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">Gestión de Reservas</h1>
+
+    <hr />
+
+    <!-- ============================= -->
+    <!-- 1. MOSTRAR TODAS LAS RESERVAS -->
+    <!-- ============================= -->
+
+    <h2>1. Todas las reservas</h2>
+
+    <button class="btn btn-primary mb-3" onclick="obtenerReservas()">
+        Mostrar reservas
+    </button>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Restaurante</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Personas</th>
+                </tr>
+            </thead>
+
+            <tbody id="tablaReservas">
+            </tbody>
+
+        </table>
+    </div>
+
+
+    <hr />
+
+    <!-- ============================= -->
+    <!-- 2. BUSCAR RESERVA POR ID -->
+    <!-- ============================= -->
+
+    <h2>2. Buscar reserva por ID</h2>
+
+    <div class="row mb-3">
+
+        <div class="col-md-4">
+
+            <label>ID de reserva:</label>
+
+            <input type="number"
+                   id="idReserva"
+                   class="form-control"
+                   placeholder="Ej: 1" />
+
+        </div>
+
+    </div>
+
+    <button class="btn btn-info" onclick="obtenerReserva()">
+        Buscar reserva
+    </button>
+
+    <pre id="resultadoReserva" class="mt-3"></pre>
+
+
+    <hr />
+
+    <!-- ======================================== -->
+    <!-- 3. RESERVAS DE UN RESTAURANTE -->
+    <!-- ======================================== -->
+
+    <h2>3. Reservas por restaurante</h2>
+
+    <div class="row mb-3">
+
+        <div class="col-md-4">
+
+            <label>ID del restaurante:</label>
+
+            <input type="number"
+                   id="idRestaurante"
+                   class="form-control"
+                   placeholder="Ej: 1" />
+
+        </div>
+
+    </div>
+
+    <button class="btn btn-secondary"
+            onclick="obtenerReservasPorRestaurante()">
+
+        Buscar reservas
+
+    </button>
+
+    <pre id="resultadoRestaurante" class="mt-3"></pre>
+
+
+    <hr />
+
+    <!-- ============================= -->
+    <!-- 4. CREAR RESERVA -->
+    <!-- ============================= -->
+
+    <h2>4. Crear reserva</h2>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="mb-3">
+
+                <label>ID Restaurante</label>
+
+                <input type="number"
+                       id="nuevoIdRestaurante"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Nombre del cliente</label>
+
+                <input type="text"
+                       id="nuevoNombreCliente"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Fecha</label>
+
+                <input type="date"
+                       id="nuevaFecha"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Hora</label>
+
+                <input type="time"
+                       id="nuevaHora"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Cantidad de personas</label>
+
+                <input type="number"
+                       id="nuevaCantidadPersonas"
+                       class="form-control"
+                       min="1">
+
+            </div>
+
+            <button class="btn btn-success"
+                    onclick="crearReserva()">
+
+                Crear reserva
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <pre id="resultadoPost" class="mt-3"></pre>
+
+
+    <hr />
+
+    <!-- ============================= -->
+    <!-- 5. EDITAR RESERVA -->
+    <!-- ============================= -->
+
+    <h2>5. Editar reserva</h2>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <div class="mb-3">
+
+                <label>ID de reserva</label>
+
+                <input type="number"
+                       id="editarId"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>ID Restaurante</label>
+
+                <input type="number"
+                       id="editarIdRestaurante"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Nombre del cliente</label>
+
+                <input type="text"
+                       id="editarNombreCliente"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Fecha</label>
+
+                <input type="date"
+                       id="editarFecha"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Hora</label>
+
+                <input type="time"
+                       id="editarHora"
+                       class="form-control">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Cantidad de personas</label>
+
+                <input type="number"
+                       id="editarCantidadPersonas"
+                       class="form-control"
+                       min="1">
+
+            </div>
+
+            <button class="btn btn-warning"
+                    onclick="editarReserva()">
+
+                Editar reserva
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <pre id="resultadoPut" class="mt-3"></pre>
+
+
+    <hr />
+
+    <!-- ============================= -->
+    <!-- 6. ELIMINAR RESERVA -->
+    <!-- ============================= -->
+
+    <h2>6. Eliminar reserva</h2>
+
+    <div class="row mb-3">
+
+        <div class="col-md-4">
+
+            <label>ID de reserva:</label>
+
+            <input type="number"
+                   id="eliminarId"
+                   class="form-control">
+
+        </div>
+
+    </div>
+
+    <button class="btn btn-danger"
+            onclick="eliminarReserva()">
+
+        Eliminar reserva
+
+    </button>
+
+    <pre id="resultadoDelete" class="mt-3"></pre>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // 1. OBTENER TODAS LAS RESERVAS
+    // ==========================================
+
+    async function obtenerReservas() {
+
+        const response = await fetch('/api/Reservas');
+
+        const reservas = await response.json();
+
+        const tabla = document.getElementById("tablaReservas");
+
+        tabla.innerHTML = "";
+
+        reservas.forEach(reserva => {
+
+            const fila = `
+                <tr>
+
+                    <td>${reserva.id}</td>
+
+                    <td>${reserva.idRestaurante}</td>
+
+                    <td>${reserva.nombreCliente}</td>
+
+                    <td>${reserva.fecha}</td>
+
+                    <td>${reserva.hora}</td>
+
+                    <td>${reserva.cantidadPersonas}</td>
+
+                </tr>
+            `;
+
+            tabla.innerHTML += fila;
+
+        });
+    }
+
+
+    // ==========================================
+    // 2. OBTENER RESERVA POR ID
+    // ==========================================
+
+    async function obtenerReserva() {
+
+        const id = document.getElementById("idReserva").value;
+
+        if (!id) {
+
+            alert("Introduce un ID");
+
+            return;
+        }
+
+        const response = await fetch(`/api/Reservas/${id}`);
+
+        const resultado = document.getElementById("resultadoReserva");
+
+        if (!response.ok) {
+
+            resultado.textContent = "Reserva no encontrada";
+
+            return;
+        }
+
+        const reserva = await response.json();
+
+        resultado.textContent =
+            JSON.stringify(reserva, null, 2);
+    }
+
+
+    // ==========================================
+    // 3. RESERVAS POR RESTAURANTE
+    // ==========================================
+
+    async function obtenerReservasPorRestaurante() {
+
+        const id = document.getElementById("idRestaurante").value;
+
+        if (!id) {
+
+            alert("Introduce el ID del restaurante");
+
+            return;
+        }
+
+        const response =
+            await fetch(`/api/Reservas/restaurante/${id}`);
+
+        const reservas = await response.json();
+
+        document.getElementById("resultadoRestaurante")
+            .textContent =
+            JSON.stringify(reservas, null, 2);
+    }
+
+
+    // ==========================================
+    // 4. CREAR RESERVA
+    // ==========================================
+
+    async function crearReserva() {
+
+        const reserva = {
+
+            idRestaurante:
+                parseInt(
+                    document.getElementById("nuevoIdRestaurante").value
+                ),
+
+            nombreCliente:
+                document.getElementById("nuevoNombreCliente").value,
+
+            fecha:
+                document.getElementById("nuevaFecha").value,
+
+            hora:
+                document.getElementById("nuevaHora").value,
+
+            cantidadPersonas:
+                parseInt(
+                    document.getElementById("nuevaCantidadPersonas").value
+                )
+        };
+
+
+        const response = await fetch('/api/Reservas', {
+
+            method: 'POST',
+
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(reserva)
+
+        });
+
+
+        const resultado = document.getElementById("resultadoPost");
+
+        const data = await response.json();
+
+        resultado.textContent =
+            JSON.stringify(data, null, 2);
+
+    }
+
+
+    // ==========================================
+    // 5. EDITAR RESERVA
+    // ==========================================
+
+    async function editarReserva() {
+
+        const id =
+            document.getElementById("editarId").value;
+
+
+        const reserva = {
+
+            id:
+                parseInt(id),
+
+            idRestaurante:
+                parseInt(
+                    document.getElementById("editarIdRestaurante").value
+                ),
+
+            nombreCliente:
+                document.getElementById("editarNombreCliente").value,
+
+            fecha:
+                document.getElementById("editarFecha").value,
+
+            hora:
+                document.getElementById("editarHora").value,
+
+            cantidadPersonas:
+                parseInt(
+                    document.getElementById("editarCantidadPersonas").value
+                )
+
+        };
+
+
+        const response =
+            await fetch(`/api/Reservas/${id}`, {
+
+                method: 'PUT',
+
+                headers: {
+
+                    'Content-Type': 'application/json'
+
+                },
+
+                body: JSON.stringify(reserva)
+
+            });
+
+
+        const resultado =
+            document.getElementById("resultadoPut");
+
+
+        if (response.ok) {
+
+            resultado.textContent =
+                "Reserva actualizada correctamente.";
+
+        }
+        else {
+
+            resultado.textContent =
+                "Error al actualizar la reserva.";
+
+        }
+
+    }
+
+
+    // ==========================================
+    // 6. ELIMINAR RESERVA
+    // ==========================================
+
+    async function eliminarReserva() {
+
+        const id =
+            document.getElementById("eliminarId").value;
+
+
+        if (!id) {
+
+            alert("Introduce el ID de la reserva");
+
+            return;
+        }
+
+
+        const response =
+            await fetch(`/api/Reservas/${id}`, {
+
+                method: 'DELETE'
+
+            });
+
+
+        const resultado =
+            document.getElementById("resultadoDelete");
+
+
+        if (response.ok) {
+
+            resultado.textContent =
+                "Reserva eliminada correctamente.";
+
+            obtenerReservas();
+
+        }
+        else {
+
+            resultado.textContent =
+                "No se pudo eliminar la reserva.";
+
+        }
+
+    }
+
+</script>

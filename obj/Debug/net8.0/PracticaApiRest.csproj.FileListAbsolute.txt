@@ -211,3 +211,8 @@ C:/Users/HP/Documents/programacion_web_dos/EjemploDeApi/obj/Debug/net8.0/ref/Pra
 /home/auguntu/practicas_aug/programacion web/EjemploDeApi/obj/Debug/net8.0/PracticaApiRest.pdb
 /home/auguntu/practicas_aug/programacion web/EjemploDeApi/obj/Debug/net8.0/PracticaApiRest.genruntimeconfig.cache
 /home/auguntu/practicas_aug/programacion web/EjemploDeApi/obj/Debug/net8.0/ref/PracticaApiRest.dll
+/home/auguntu/practicas_aug/programacion web/EjemploDeApi/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/home/auguntu/practicas_aug/programacion web/EjemploDeApi/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/auguntu/practicas_aug/programacion web/EjemploDeApi/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/auguntu/practicas_aug/programacion web/EjemploDeApi/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/home/auguntu/practicas_aug/programacion web/EjemploDeApi/obj/Debug/net8.0/PracticaApiRest.MvcApplicationPartsAssemblyInfo.cs

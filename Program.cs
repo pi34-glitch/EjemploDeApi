@@ -12,6 +12,9 @@ builder.Services.AddDbContext<RestaurantesDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// 1. Agregar el generador de Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -22,7 +25,16 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+// 2. Habilitar la interfaz y JSON de Swagger
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        // Opcional: define el título de la página web de la documentación
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Restaurantes v1");
+    });
+}
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
